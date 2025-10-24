@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+/* Define tus tokens (v4) */
+@theme {
+  --color-bg: #0b0c10;
+  --color-surface: #12131a;
+  --color-panel: #171824;
+  --color-ink: #f2f3f7;
+  --color-muted: #b2b5c4;
+  --color-primary: #7c5cff;
+  --color-primary2: #6ad2ff;
+
+  --shadow-soft: 0 10px 30px rgba(0,0,0,.35);
+  --radius-xl2: 18px;
+}
+
+:root { color-scheme: dark; }
+
+/* ya puedes usar bg-bg, text-ink, etc. */
+html, body { @apply bg-bg text-ink; }
+
+.container { @apply max-w-[1180px] mx-auto px-5; }
+
+.btn { @apply inline-block font-semibold rounded-xl px-4 py-3 bg-panel border border-[#25273a] shadow-soft transition-transform; }
+.btn:hover { @apply -translate-y-0.5; }
+.btn-primary { @apply text-white border-transparent; background: linear-gradient(135deg,#7c5cff,#9b7bff); }
+.btn-ghost { @apply bg-transparent border-[#34374e]; }
+.btn-whatsapp { @apply text-[#0b3e23] border-[#1faa56]; background: linear-gradient(135deg,#25D366,#36e07a); }
+.btn-sm { @apply px-3 py-2 rounded-lg font-bold; }
+
+.card { @apply bg-surface border border-[#23263b] rounded-2xl p-5 shadow-soft; }
+.glass { background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.35); padding: 0.5rem; }
+
+.muted { @apply text-muted; }
+
+@media (prefers-reduced-motion: reduce){
+  * { transition: none !important; animation: none !important; }
+}

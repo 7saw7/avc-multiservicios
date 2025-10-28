@@ -1,22 +1,27 @@
 @import "tailwindcss";
 
-/* Define tus tokens (v4) */
+/* ===========================
+   Tokens base (Tailwind v4)
+   =========================== */
 @theme {
-  --color-bg: #0b0c10;
-  --color-surface: #12131a;
-  --color-panel: #171824;
-  --color-ink: #f2f3f7;
-  --color-muted: #b2b5c4;
-  --color-primary: #7c5cff;
+  --color-bg:       #0b0c10;
+  --color-surface:  #12131a;
+  --color-panel:    #171824;
+  --color-ink:      #f2f3f7;
+  --color-muted:    #b2b5c4;
+  --color-primary:  #7c5cff;
   --color-primary2: #6ad2ff;
 
-  --shadow-soft: 0 10px 30px rgba(0,0,0,.35);
-  --radius-xl2: 18px;
+  /* Colores de campaña (para usar en utilidades) */
+  --color-accent:   #f28c28;   /* naranja Halloween */
+  --color-gold:     #d9a441;   /* dorado del logo */
+  --color-bgBlue:   #0A3A6B;   /* azul de tu marca */
+  --radius-xl2:     18px;
+  --shadow-soft:    0 10px 30px rgba(0,0,0,.35);
 }
 
 :root { color-scheme: dark; }
 
-/* ya puedes usar bg-bg, text-ink, etc. */
 html, body { @apply bg-bg text-ink; }
 
 .container { @apply max-w-[1180px] mx-auto px-5; }
@@ -33,6 +38,166 @@ html, body { @apply bg-bg text-ink; }
 
 .muted { @apply text-muted; }
 
+/* ===========================
+   🎃 Tema Halloween (toggle)
+   Añade class="theme-halloween" en <body> 
+   o usa el Provider que te pasé
+   =========================== */
+.theme-halloween {
+  /* Sobrescribe tokens para toda la UI durante campaña */
+  --color-bg:      #0a2440;      /* azul noche */
+  --color-surface: #0e1a30;
+  --color-panel:   #0f1f3a;
+  --color-ink:     #fff7e6;
+  --color-muted:   #cbd5e1;
+  --color-primary: #f28c28;      /* usamos el naranja como primario */
+}
+
+/* Utilidades visuales Halloween */
+.halloween-border { border-color: color-mix(in oklab, var(--color-accent) 40%, white); }
+.halloween-gradient-text {
+  background: linear-gradient(90deg, #f28c28, #ffd08a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ===========================
+   👻 Fantasma Navbar
+   =========================== */
+
+:root { --ghost-w: 44px; }
+
+@keyframes ghost-float {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-6px); }
+}
+@keyframes ghost-run {
+  0%   { transform: translateX(calc(-1 * var(--ghost-w))); }
+  100% { transform: translateX(calc(100vw + var(--ghost-w))); }
+}
+
+/* El SVG solo define tamaño/estilos, sin animaciones */
+.halloween-ghost {
+  width: var(--ghost-w);
+  height: var(--ghost-w);
+  opacity: .7;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
+}
+
+/* Animaciones separadas en wrappers */
+.ghost-run   { animation: ghost-run 14s linear infinite;   will-change: transform; display:inline-block; }
+.ghost-float { animation: ghost-float 3.6s ease-in-out infinite; will-change: transform; display:inline-block; }
+
+/* (opcional) seguir forzando visibilidad si reduce-motion está activo */
+.force-ghost .halloween-ghost { display: block !important; }
 @media (prefers-reduced-motion: reduce){
-  * { transition: none !important; animation: none !important; }
+  /* si quieres ocultarlo en RM, comenta la siguiente línea */
+  /* .halloween-ghost { display:none !important; } */
+}
+
+/* ===========================
+   🕷️ Arañas animadas Hero (versión final)
+   =========================== */
+
+/* Hilos de soporte */
+.spider__thread {
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  width: 1.2px;
+  height: 140px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--color-gold) 65%, white) 0%,
+    color-mix(in oklab, var(--color-gold) 35%, transparent) 100%
+  );
+  opacity: .9;
+  box-shadow: 0 0 0.6px rgba(255,255,255,.8);
+  filter: drop-shadow(0 0 2px rgba(0,0,0,.25));
+}
+
+/* Cuerpo principal */
+.spider {
+  position: absolute;
+  top: -8px;
+  width: 18px;
+  height: 18px;
+  transform-origin: 50% 0%;
+  will-change: transform;
+  /* Variables de movimiento */
+  --min: -64px;  /* punto más alto */
+  --mid: 8px;    /* posición media */
+  --max: 64px;   /* punto más bajo */
+}
+
+/* Araña izquierda → baja y sube (inicio arriba) */
+.spider--l {
+  animation:
+    spider-yo-a 7.4s cubic-bezier(.45,.01,.23,1) infinite,
+    spider-sway 3.8s ease-in-out infinite;
+}
+
+/* Araña derecha → sube y baja (inicio abajo, desfase leve) */
+.spider--r {
+  animation:
+    spider-yo-b 6.9s cubic-bezier(.45,.01,.23,1) infinite,
+    spider-sway 4.4s ease-in-out infinite;
+}
+
+/* Halo blanco para destacar sobre fondo oscuro */
+.spider__body .core {
+  stroke: rgba(255,255,255,.9);
+  stroke-width: 0.9px;
+  paint-order: stroke;
+  vector-effect: non-scaling-stroke;
+}
+.spider__body.spider--outlined {
+  filter: drop-shadow(0 0 1px rgba(255,255,255,.85));
+}
+.spider__body .legs {
+  filter: drop-shadow(0 0 0.6px rgba(255,255,255,.7));
+}
+
+/* Balanceo lateral suave */
+@keyframes spider-sway {
+  0%,100% { rotate: -2.2deg; }
+  50%     { rotate:  2.2deg; }
+}
+
+/* Movimiento vertical tipo "yo-yo" irregular */
+@keyframes spider-yo-a {
+  0%   { transform: translateY(var(--min)); }
+  20%  { transform: translateY(var(--mid)); }
+  55%  { transform: translateY(var(--max)); }
+  78%  { transform: translateY(calc(var(--mid) * .6)); }
+  100% { transform: translateY(var(--min)); }
+}
+@keyframes spider-yo-b {
+  0%   { transform: translateY(var(--max)); }
+  24%  { transform: translateY(var(--mid)); }
+  56%  { transform: translateY(var(--min)); }
+  80%  { transform: translateY(calc(var(--mid) * .4)); }
+  100% { transform: translateY(var(--max)); }
+}
+
+/* Ajustes de rendimiento y accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .spider { animation: none; }
+}
+
+/* En pantallas muy pequeñas, oculta las arañas */
+@media (max-width: 420px) {
+  .spider { display: none; }
+  .web { opacity: .4; }
+}
+
+.force-anim .spider--l {
+  animation: spider-yo-a 7.4s cubic-bezier(.45,.01,.23,1) infinite,
+             spider-sway 3.8s ease-in-out infinite !important;
+}
+.force-anim .spider--r {
+  animation: spider-yo-b 6.9s cubic-bezier(.45,.01,.23,1) infinite,
+             spider-sway 4.4s ease-in-out infinite !important;
 }

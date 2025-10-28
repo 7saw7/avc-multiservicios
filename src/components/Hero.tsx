@@ -69,13 +69,23 @@ export default function Hero() {
           </ul>
         </div>
 
-        <div className="glass">
+        <div className="glass flex justify-center md:justify-end">
           <Image
             src="/assets/logo.png"
-            alt="Muestrario de disfraces"
+            alt="Logo AVC Multiservicios"
             width={900}
             height={600}
-            className="h-[420px] w-full object-cover rounded-[14px]"
+            className="
+              w-[85%] max-w-[380px]           /* 📱 en móviles: tamaño reducido */
+              h-auto                          /* altura automática, mantiene proporción */
+              md:w-full md:h-[420px]          /* 💻 en desktop: ocupa el ancho del contenedor */
+              object-contain                  /* evita cortes del logo */
+              rounded-[14px]
+              mx-auto                         /* centrado horizontal */
+              transition-transform duration-300
+              hover:scale-[1.02]              /* sutil zoom al pasar el mouse */
+            "
+            priority
           />
         </div>
       </div>

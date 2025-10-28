@@ -187,12 +187,6 @@ html, body { @apply bg-bg text-ink; }
   .spider { animation: none; }
 }
 
-/* En pantallas muy pequeñas, oculta las arañas */
-@media (max-width: 420px) {
-  .spider { display: none; }
-  .web { opacity: .4; }
-}
-
 .force-anim .spider--l {
   animation: spider-yo-a 7.4s cubic-bezier(.45,.01,.23,1) infinite,
              spider-sway 3.8s ease-in-out infinite !important;

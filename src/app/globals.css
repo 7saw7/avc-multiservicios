@@ -195,3 +195,14 @@ html, body { @apply bg-bg text-ink; }
   animation: spider-yo-b 6.9s cubic-bezier(.45,.01,.23,1) infinite,
              spider-sway 4.4s ease-in-out infinite !important;
 }
+
+/* Mano huesuda móvil */
+.hand-bone{
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,.35));
+  transform-origin: 70% 70%;
+  animation: hand-float 3.6s ease-in-out infinite;
+}
+@keyframes hand-float{
+  0%,100% { transform: translateY(0) rotate(12deg); }
+  50%     { transform: translateY(-4px) rotate(10deg); }
+}

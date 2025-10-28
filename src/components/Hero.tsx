@@ -52,8 +52,8 @@ export default function Hero() {
             >
               Cotizar por WhatsApp
             </Link>
-            <a className="btn btn-ghost" href="tel:+51956087558">
-              Llámanos 956 087 558
+            <a className="btn btn-ghost" href="tel:+51965046075">
+              Llámanos 965 046 075
             </a>
           </div>
           <ul className="flex gap-3 text-[#d5d7e6]">
